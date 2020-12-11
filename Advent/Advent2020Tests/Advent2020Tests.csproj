@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Days\D7\Day7.cs" />
     <Compile Include="Days\D5\Day5.cs" />
     <Compile Include="Days\ATemplate\Day.cs" />
     <Compile Include="Days\D6\Day6.cs" />
@@ -58,6 +59,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Days\D7\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Days\D5\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

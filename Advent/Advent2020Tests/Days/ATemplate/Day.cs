@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using AdventLibrary;
 
 namespace Advent2020Tests.Days.ATemplate
 {
@@ -9,7 +10,7 @@ namespace Advent2020Tests.Days.ATemplate
     {
         public string[] GetData()
         {
-            return File.ReadAllLines("./Days/D5/Data.txt");
+            return File.ReadAllLines("./Days/D/Data.txt");
         }
 
         [TestMethod]
