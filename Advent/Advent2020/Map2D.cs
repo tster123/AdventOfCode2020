@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Advent2020
 {
+    /// <summary>
+    /// A class that represents a 2D field of values.  0,0 is the top left spot. 
+    /// </summary>
     public class Map2D<T>
     {
         private readonly T[][] matrix;
