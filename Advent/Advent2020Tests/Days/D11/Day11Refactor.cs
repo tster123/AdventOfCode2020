@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection.Emit;
 using Advent2020;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -47,13 +46,20 @@ namespace Advent2020Tests.Days.D11
 
         private object Problem2(Room2 room)
         {
-            return null;
+            HashSet<string> seen = new HashSet<string>();
+            while (!seen.Contains(room.ToString()))
+            {
+                seen.Add(room.ToString());
+                room.Tick2();
+            }
+
+            return room.CountOccupied();
         }
     }
 
     public class Room2
     {
-        public Map2D<char> map;
+        private Map2D<char> map;
 
         public Room2(Map2D<char> map)
         {
@@ -62,8 +68,71 @@ namespace Advent2020Tests.Days.D11
 
         public int CountOccupied() => map.GetAllPoints().Count(p => p.Value == '#');
 
+        public override string ToString()
+        {
+            return map.ToString();
+        }
+
         public void Tick()
         {
+            char[][] matrix = map.NewMatrix();
+            foreach (var point in map.GetAllPoints())
+            {
+                if (point.Value == '.')
+                {
+                    matrix[point.Y][point.X] = '.';
+                    continue;
+                }
+
+                int count = 0;
+                foreach (Direction d in Directions2D.All)
+                {
+                    var p = point.GetInDirection(d);
+                    if (p.Value == '#') count++;
+                }
+
+                matrix[point.Y][point.X] = count == 0 ? '#' : count >= 4 ? 'L' : point.Value;
+            }
+
+            map = new Map2D<char>(matrix);
+        }
+
+        public void Tick2()
+        {
+            char[][] matrix = map.NewMatrix();
+            foreach (var point in map.GetAllPoints())
+            {
+                if (point.Value == '.')
+                {
+                    matrix[point.Y][point.X] = '.';
+                    continue;
+                }
+
+                int count = 0;
+                foreach (Direction d in Directions2D.All)
+                {
+                    var p = point;
+                    while (true)
+                    {
+                        p = p.GetInDirection(d);
+                        if (p.Value == '#')
+                        {
+                            count++;
+                            break;
+                        }
+                        if (p.Value == 'L')
+                        {
+                            break;
+                        }
+                        if (!p.IsInside) break;
+                    }
+                    
+                }
+
+                matrix[point.Y][point.X] = count == 0 ? '#' : count >= 5 ? 'L' : point.Value;
+            }
+
+            map = new Map2D<char>(matrix);
         }
 
     }
