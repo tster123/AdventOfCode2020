@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Linq;
 using AdventLibrary;
 
 namespace Advent2020Tests.Days.ATemplate
@@ -8,9 +9,17 @@ namespace Advent2020Tests.Days.ATemplate
     [TestClass]
     public class Day
     {
-        public string[] GetData()
+        public string[] GetLines()
         {
             return File.ReadAllLines("./Days/D/Data.txt");
+        }
+
+        public object[] GetData()
+        {
+            return GetLines().Select(l =>
+            {
+                return (object) null;
+            }).ToArray();
         }
 
         [TestMethod]
@@ -19,7 +28,7 @@ namespace Advent2020Tests.Days.ATemplate
             Console.WriteLine(Problem1(GetData()));
         }
 
-        private object Problem1(string[] lines)
+        private object Problem1(object[] lines)
         {
             return null;
         }
@@ -30,7 +39,7 @@ namespace Advent2020Tests.Days.ATemplate
             Console.WriteLine(Problem2(GetData()));
         }
 
-        private object Problem2(string[] lines)
+        private object Problem2(object[] lines)
         {
             return null;
         }
