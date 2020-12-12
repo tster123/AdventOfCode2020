@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -157,5 +158,41 @@ namespace Advent2020
             { Direction.LeftUp, Direction.LeftDown, Direction.RightUp, Direction.RightDown };
 
         public static readonly Direction[] All = Cardinal.Concat(Diagonal).ToArray();
+    }
+
+    public static class StateTagUtilities
+    {
+        /// <summary>
+        /// Initializes a static map, which converts a particular elastic pool FSM state to an end-user elastic pool state.
+        /// </summary>
+        /// <param name="stateTagsMap">A mapping between the all FSM states and tags associated with them..</param>
+        /// <param name="fsmTypeName">Finite state machine type name.</param>
+        /// <typeparam name="TKeyEnum">The expected state type</typeparam>
+        /// <typeparam name="TValue">The expected state tag attributes</typeparam>
+        public static void InitializeStateTagsMap<TKeyEnum, TValue>(Dictionary<TKeyEnum, TValue> stateTagsMap, string fsmTypeName) 
+            where TKeyEnum :  struct, IConvertible
+            where TValue : class
+        {
+            foreach (var fieldInfo in typeof(TKeyEnum).GetFields())
+            {
+                if (fieldInfo.FieldType != typeof(TKeyEnum))
+                {
+                    continue;
+                }
+
+                TValue tags = fieldInfo
+                        .GetCustomAttributes(typeof(TValue), inherit: false)
+                        .SingleOrDefault()
+                    as TValue;
+
+                if (tags == null)
+                {
+                    throw new Exception(string.Format(CultureInfo.InvariantCulture,
+                        "The {0} state '{1}' must have the 'StateTags' defined.", fsmTypeName, fieldInfo.Name));
+                }
+
+                stateTagsMap.Add((TKeyEnum)fieldInfo.GetValue(null), tags);
+            }
+        }
     }
 }
