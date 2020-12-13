@@ -60,7 +60,7 @@
     <Compile Include="Days\ATemplate\Day.cs" />
     <Compile Include="Days\D6\Day6.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Y2018\ATemplate\Day11.cs" />
+    <Compile Include="Y2018\D11\Day11.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
