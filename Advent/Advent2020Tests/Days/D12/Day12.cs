@@ -35,7 +35,7 @@ namespace Advent2020Tests.Days.D12
             int eDist = 0;
             int nDist = 0;
             var rightTurns = new Dictionary<char, char> {['N'] = 'E', ['E'] = 'S', ['S'] = 'W', ['W'] = 'N'};
-            var leftTurns = new Dictionary<char, char> { ['N'] = 'W', ['E'] = 'N', ['S'] = 'E', ['W'] = 'S' };
+            var leftTurns = new Dictionary<char, char> {['N'] = 'W', ['E'] = 'N', ['S'] = 'E', ['W'] = 'S'};
             foreach (var c in lines)
             {
                 char a = c.Command;
