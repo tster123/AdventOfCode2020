@@ -65,7 +65,7 @@ namespace Advent2020Tests.Y2018.D11
                 matrix[x, y] = new FuelCell(x, y).PowerLevel;
             }
 
-            var mem = new ConcurrentDictionary<string, int>();
+            var mem = new Dictionary<string, int>();
 
             //Parallel.For(1, 301, size =>
             for (int size = 1; size <= 300; size++)
