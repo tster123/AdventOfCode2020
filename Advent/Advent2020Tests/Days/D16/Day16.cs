@@ -3,9 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using AdventLibrary;
 
 namespace Advent2020Tests.Days.D16
@@ -125,6 +122,7 @@ namespace Advent2020Tests.Days.D16
                 }
             }
 
+            // go from known fields and eliminate that field from being other fields.
             List<string> seen = new List<string>();
             foreach (var set in possibleFields.OrderBy(s => s.Count))
             {
@@ -141,21 +139,6 @@ namespace Advent2020Tests.Days.D16
                     }
                 }
             }
-            /*
-            bool better = true;
-            while (better)
-            {
-                better = false;
-                foreach (var pf in possibleFields)
-                {
-
-                    if (pf.Count == 1)
-                    {
-                        string toRemove = 
-                    }
-                }
-            }
-            */
 
             long product = 1;
             int index = 0;
