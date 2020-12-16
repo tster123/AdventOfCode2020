@@ -101,6 +101,7 @@ namespace Advent2020Tests.Days.D16
         private object Problem2(Data data)
         {
             List<Ticket> validTickets = data.NearbyTickets.Where(t => t.IsValid(data.Classes)).ToList();
+            // fill a hashset with every field which is valid in each index
             List<HashSet<string>> possibleFields = new List<HashSet<string>>();
             foreach (int n in data.YourTicket.Numbers)
             {
@@ -108,6 +109,7 @@ namespace Advent2020Tests.Days.D16
                 possibleFields.Add(fields);
             }
 
+            // for each valid ticket, if a number is outside the range of a given number, remove it from the set
             for (int i = 0; i < data.YourTicket.Numbers.Length; i++)
             {
                 foreach (var ticket in validTickets)
