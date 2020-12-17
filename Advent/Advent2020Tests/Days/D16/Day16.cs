@@ -3,12 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using AdventLibrary;
 
 namespace Advent2020Tests.Days.D16
 {
     [TestClass]
-    public class Day15
+    public class Day16
     {
         public string[] GetLines()
         {
@@ -110,28 +111,27 @@ namespace Advent2020Tests.Days.D16
             }
 
             // for each valid ticket, if a number is outside the range of a given number, remove it from the set
-            for (int i = 0; i < data.YourTicket.Numbers.Length; i++)
+            Parallel.For(0, data.YourTicket.Numbers.Length, i =>
             {
-                foreach (var ticket in validTickets)
+                foreach (string field in data.Classes.Keys)
                 {
-                    foreach (string field in data.Classes.Keys)
+                    foreach (var ticket in validTickets)
                     {
                         if (!data.Classes[field].Contains(ticket.Numbers[i]))
                         {
                             possibleFields[i].Remove(field);
+                            break;
                         }
                     }
                 }
-            }
+            });
 
             // go from known fields and eliminate that field from being other fields.
-            List<string> seen = new List<string>();
             foreach (var set in possibleFields.OrderBy(s => s.Count))
             {
                 if (set.Count == 1)
                 {
                     string val = set.First();
-                    seen.Add(val);
                     foreach (var s2 in possibleFields)
                     {
                         if (s2 != set)

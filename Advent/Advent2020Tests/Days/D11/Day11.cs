@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Advent2020Tests.Days.D11
 {
-    [TestClass]
+    //[TestClass]
     public class Day11
     {
         public string[] GetLines()

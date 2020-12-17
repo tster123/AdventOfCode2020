@@ -8,6 +8,7 @@ using AdventLibrary;
 
 namespace Advent2020Tests.Days.D15
 {
+    /*
     [TestClass]
     public class Day15
     {
@@ -32,18 +33,17 @@ namespace Advent2020Tests.Days.D15
 
         private static object LastNum(int[] data, int iterations)
         {
-            Dictionary<int, List<int>> speaks = new Dictionary<int, List<int>>();
+            Dictionary<int, Memory> speaks = new Dictionary<int, Memory>(1000);
             int time = 1;
-            int lastAge = 0;
             foreach (int d in data)
             {
-                if (speaks.ContainsKey(d))
+                if (speaks.TryGetValue(d, out var l))
                 {
-                    speaks[d].Add(time);
+                    l.GetToSpeak(time);
                 }
                 else
                 {
-                    speaks[d] = new List<int> {time};
+                    speaks[d] = new Memory(time);
                 }
 
                 time++;
@@ -53,19 +53,13 @@ namespace Advent2020Tests.Days.D15
 
             while (time <= iterations)
             {
-                int next;
-                if (speaks[lastNum].Count == 1)
-                {
-                    next = 0;
-                }
-                else
-                {
-                    next = speaks[lastNum].Last() - speaks[lastNum][speaks[lastNum].Count - 2];
-                }
+                var mem = speaks[lastNum];
+                lastNum = mem.GetToSpeak(time);
+                
 
-                if (speaks.ContainsKey(next))
+                if (speaks.TryGetValue(lastNum, out var l))
                 {
-                    speaks[next].Add(time);
+                    l.Add(time);
                 }
                 else
                 {
@@ -82,7 +76,10 @@ namespace Advent2020Tests.Days.D15
         [TestMethod]
         public void Problem2()
         {
-            Console.WriteLine(Problem2(GetData()));
+            int expected = 2424;
+            int actual = (int)Problem2(GetData());
+            Assert.AreEqual(expected, actual);
+            Console.WriteLine(actual);
         }
 
         private object Problem2(int[] data)
@@ -91,4 +88,31 @@ namespace Advent2020Tests.Days.D15
         }
     }
 
+    public class Memory
+    {
+        public int Prev, BeforePrev = -1;
+
+        public Memory(int prev)
+        {
+            Prev = prev;
+        }
+
+        public int GetToSpeak(int currentTime)
+        {
+            if (BeforePrev == -1)
+            {
+                BeforePrev = Prev;
+                Prev = currentTime;
+                return 0;
+            }
+            else
+            {
+                int ret = currentTime - Prev;
+                BeforePrev = Prev;
+                Prev = currentTime;
+                return ret;
+            }
+        }
+    }
+    */
 }
