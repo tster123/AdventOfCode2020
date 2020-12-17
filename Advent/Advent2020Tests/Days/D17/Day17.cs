@@ -32,7 +32,7 @@ namespace Advent2020Tests.Days.D17
 
         private object Problem1(DimensionMap<char> start)
         {
-            space = new DimensionMap<char>(start.GetPointsWithValues()
+            space = new DimensionMap<char>(3, start.GetPointsWithValues()
                 .Select(p => new Point<char>(new[] { p[0], p[1], 0 }, p.Value)));
 
 
@@ -52,7 +52,7 @@ namespace Advent2020Tests.Days.D17
 
         private object Problem2(DimensionMap<char> start)
         {
-            space = new DimensionMap<char>(start.GetPointsWithValues()
+            space = new DimensionMap<char>(4, start.GetPointsWithValues()
                 .Select(p => new Point<char>(new[] {p[0], p[1], 0, 0}, p.Value)));
 
 
@@ -66,7 +66,7 @@ namespace Advent2020Tests.Days.D17
 
         private void Tick()
         {
-            space = new DimensionMap<char>(NextActive(), '.');
+            space = new DimensionMap<char>(2, NextActive(), '.');
         }
 
         private IEnumerable<Point<char>> NextActive()

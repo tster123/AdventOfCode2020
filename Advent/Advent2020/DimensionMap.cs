@@ -8,15 +8,16 @@ namespace Advent2020
     public class DimensionMap<TVal>
     {
         private readonly Dictionary<Point, TVal> values = new Dictionary<Point, TVal>();
-        private readonly int dimensions;
+        public readonly int Dimensions;
         private readonly Range[] ranges;
         private readonly bool isInfinite;
         private readonly bool wraps;
         private readonly TVal defaultValue;
 
-        public DimensionMap([NotNull] IEnumerable<Point<TVal>> points, TVal defaultValue = default, bool isInfinite = true, bool wraps = false)
+        public DimensionMap(int dimensions, [NotNull] IEnumerable<Point<TVal>> points, TVal defaultValue = default, bool isInfinite = true, bool wraps = false)
         {
-            dimensions = -1;
+            Dimensions = dimensions;
+            ranges = new Range[dimensions];
             this.isInfinite = isInfinite;
             this.wraps = wraps;
             this.defaultValue = defaultValue;
@@ -25,12 +26,7 @@ namespace Advent2020
             
             foreach (Point<TVal> p in points)
             {
-                if (ranges == null)
-                {
-                    dimensions = p.Dimensions;
-                    ranges = new Range[dimensions];
-                }
-
+                if (p.Dimensions != Dimensions) throw new ArgumentException("Unequal dimensions");
                 this[p] = p.Value;
             }
         }
@@ -50,9 +46,9 @@ namespace Advent2020
             }
             private set
             {
-                if (p.Dimensions != dimensions)
+                if (p.Dimensions != Dimensions)
                     throw new ArgumentException(
-                        $"map dimensions ({dimensions}) are different than point dimensions ({p.Dimensions})");
+                        $"map dimensions ({Dimensions}) are different than point dimensions ({p.Dimensions})");
                 for (int d = 0; d < ranges.Length; d++)
                 {
                     if (wraps)
@@ -74,7 +70,7 @@ namespace Advent2020
 
         public IEnumerable<Point> EnumeratePointsInRange(int expandOutBy = 0)
         {
-            int[] deltas = new int[dimensions];
+            int[] deltas = new int[Dimensions];
             Range[] newRanges = ranges;
             if (expandOutBy > 0)
             {
@@ -234,7 +230,7 @@ namespace Advent2020
                 }
             }
 
-            return new DimensionMap<char>(points, defaultValue, isInfinite, wraps);
+            return new DimensionMap<char>(2, points, defaultValue, isInfinite, wraps);
         }
     }
 }

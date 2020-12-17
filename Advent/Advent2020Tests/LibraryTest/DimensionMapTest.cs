@@ -13,7 +13,7 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestGet()
         {
-            var map = new DimensionMap<char>(new[]
+            var map = new DimensionMap<char>(3, new[]
             {
                 new Point<char>(new[] {0, 0, 0}, 'a'),
                 new Point<char>(new[] {5, 2, 3}, 'b'),
@@ -64,7 +64,7 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestGetPointsInRange()
         {
-            var map = new DimensionMap<char>(new[]
+            var map = new DimensionMap<char>(3, new[]
             {
                 new Point<char>(new[] {0, 0, 0}, 'a'),
                 new Point<char>(new[] {5, 2, 3}, 'a'),
@@ -81,7 +81,7 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestGetPointsInRangeWeird()
         {
-            var map = new DimensionMap<char>(new[]
+            var map = new DimensionMap<char>(3, new[]
             {
                 new Point<char>(new[] {1, 2, 3}, 'a'),
                 new Point<char>(new[] {3, 0, 3}, 'a'),
@@ -100,7 +100,7 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestGetPointsInRangeExpand()
         {
-            var map = new DimensionMap<char>(new[]
+            var map = new DimensionMap<char>(3, new[]
             {
                 new Point<char>(new[] {0, 0, 0}, 'a'),
                 new Point<char>(new[] {2, 1, 3}, 'a'),
