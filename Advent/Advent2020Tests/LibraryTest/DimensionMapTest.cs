@@ -50,6 +50,18 @@ namespace Advent2020Tests.LibraryTest
         }
 
         [TestMethod]
+        public void TestNeighbors3DCardinal()
+        {
+            Point p = new Point(new[] { 1, 2, 3 });
+            Point[] neighbors = p.GetNeighbors(includeDiagonals: false).ToArray();
+            Assert.AreEqual(6, neighbors.Length);
+            foreach (var n in neighbors)
+            {
+                Console.WriteLine(n);
+            }
+        }
+
+        [TestMethod]
         public void TestGetPointsInRange()
         {
             var map = new DimensionMap<char>(new[]

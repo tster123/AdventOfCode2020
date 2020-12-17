@@ -167,6 +167,18 @@ namespace Advent2020
                     }
                 } while (BumpDeltas(deltas, null));
             }
+            else
+            {
+                for (int d = 0; d < Dimensions; d++)
+                {
+                    int[] c = coordinates.ToArray();
+                    c[d]--;
+                    yield return new Point(c);
+                    c = coordinates.ToArray();
+                    c[d]++;
+                    yield return new Point(c);
+                }
+            }
         }
 
         internal static bool BumpDeltas(int[] deltas, Range[] ranges)
