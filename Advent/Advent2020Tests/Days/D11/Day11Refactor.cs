@@ -17,7 +17,7 @@ namespace Advent2020Tests.Days.D11
 
         public Room2 GetData()
         {
-            return new Room2(MapFactories.Character(GetLines()));
+            return new Room2(MapFactoriesOld.Character(GetLines()));
         }
 
         [TestMethod]

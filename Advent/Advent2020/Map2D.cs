@@ -81,7 +81,7 @@ namespace Advent2020
         }
     }
 
-    public static class MapFactories
+    public static class MapFactoriesOld
     {
         public static Map2D<char> Character(string[] lines, char defaultValue = '~')
         {
