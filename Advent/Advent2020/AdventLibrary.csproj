@@ -49,6 +49,7 @@
     <Compile Include="DimensionMap.cs" />
     <Compile Include="LineHelper.cs" />
     <Compile Include="Map2D.cs" />
+    <Compile Include="Point.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />

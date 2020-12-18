@@ -17,16 +17,18 @@ namespace Advent2020Tests.Days.D11
 
         public Room2 GetData()
         {
-            return new Room2(MapFactoriesOld.Character(GetLines()));
+            return new Room2(MapFactories.Character2D(GetLines()));
         }
 
         [TestMethod]
         public void Problem1()
         {
-            Console.WriteLine(Problem1(GetData()));
+            int actual = Problem1(GetData());
+            Assert.AreEqual(2344, actual);
+            Console.WriteLine(actual);
         }
 
-        private object Problem1(Room2 room)
+        private int Problem1(Room2 room)
         {
             HashSet<string> seen = new HashSet<string>();
             while (!seen.Contains(room.ToString()))
@@ -41,10 +43,12 @@ namespace Advent2020Tests.Days.D11
         [TestMethod]
         public void Problem2()
         {
-            Console.WriteLine(Problem2(GetData()));
+            int actual = Problem2(GetData());
+            Assert.AreEqual(2076, actual);
+            Console.WriteLine(actual);
         }
 
-        private object Problem2(Room2 room)
+        private int Problem2(Room2 room)
         {
             HashSet<string> seen = new HashSet<string>();
             while (!seen.Contains(room.ToString()))
@@ -59,14 +63,14 @@ namespace Advent2020Tests.Days.D11
 
     public class Room2
     {
-        private Map2D<char> map;
+        private DimensionMap<char> map;
 
-        public Room2(Map2D<char> map)
+        public Room2(DimensionMap<char> map)
         {
             this.map = map;
         }
 
-        public int CountOccupied() => map.GetAllPoints().Count(p => p.Value == '#');
+        public int CountOccupied() => map.GetPointsWithValues().Count(p => p.Value == '#');
 
         public override string ToString()
         {
@@ -75,64 +79,65 @@ namespace Advent2020Tests.Days.D11
 
         public void Tick()
         {
-            char[][] matrix = map.NewMatrix();
-            foreach (var point in map.GetAllPoints())
+            var nextPoints = new List<Point<char>>();
+            foreach (var point in map.GetPointsWithValues())
             {
                 if (point.Value == '.')
                 {
-                    matrix[point.Y][point.X] = '.';
+                    nextPoints.Add(new Point<char>(point, '.'));
                     continue;
                 }
 
                 int count = 0;
-                foreach (Direction d in Directions2D.All)
+                foreach (var p in point.GetNeighbors())
                 {
-                    var p = point.GetInDirection(d);
-                    if (p.Value == '#') count++;
+                    if (map[p] == '#') count++;
                 }
 
-                matrix[point.Y][point.X] = count == 0 ? '#' : count >= 4 ? 'L' : point.Value;
+                char val = count == 0 ? '#' : count >= 4 ? 'L' : point.Value;
+                nextPoints.Add(new Point<char>(point, val));
             }
 
-            map = new Map2D<char>(matrix);
+            map = map.Next(nextPoints);
         }
 
         public void Tick2()
         {
-            char[][] matrix = map.NewMatrix();
-            foreach (var point in map.GetAllPoints())
+            var nextPoints = new List<Point<char>>();
+            foreach (var point in map.GetPointsWithValues())
             {
                 if (point.Value == '.')
                 {
-                    matrix[point.Y][point.X] = '.';
+                    nextPoints.Add(new Point<char>(point, '.'));
                     continue;
                 }
 
                 int count = 0;
-                foreach (Direction d in Directions2D.All)
+                foreach (int[] vector in point.GetDirectionVectors())
                 {
-                    var p = point;
+                    Point p = point;
                     while (true)
                     {
-                        p = p.GetInDirection(d);
-                        if (p.Value == '#')
+                        p = p.ApplyVector(vector);
+                        if (map[p] == '#')
                         {
                             count++;
                             break;
                         }
-                        if (p.Value == 'L')
+                        if (map[p] == 'L')
                         {
                             break;
                         }
-                        if (!p.IsInside) break;
+                        if (!map.IsInside(p)) break;
                     }
                     
                 }
 
-                matrix[point.Y][point.X] = count == 0 ? '#' : count >= 5 ? 'L' : point.Value;
+                char val = count == 0 ? '#' : count >= 5 ? 'L' : point.Value;
+                nextPoints.Add(new Point<char>(new[] { point[0], point[1] }, val));
             }
 
-            map = new Map2D<char>(matrix);
+            map = map.Next(nextPoints);
         }
 
     }
