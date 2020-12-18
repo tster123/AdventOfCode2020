@@ -23,7 +23,7 @@ namespace Advent2020
 
         public bool IsInside(int y, int x) => x >= 0 && y >= 0 && y < matrix.Length && x < matrix[y].Length;
 
-        public Point2D<T> this[int y, int x] => new Point2D<T>(this, y, x);
+        public Point2Dold<T> this[int y, int x] => new Point2Dold<T>(this, y, x);
 
         public int Width => matrix[0].Length;
         public int Height => matrix.Length;
@@ -56,7 +56,7 @@ namespace Advent2020
             return newMatrix;
         }
 
-        public IEnumerable<Point2D<T>> GetAllPoints()
+        public IEnumerable<Point2Dold<T>> GetAllPoints()
         {
             for (int y = 0; y < Height; y++)
             for (int x = 0; x < Width; x++)
@@ -89,12 +89,12 @@ namespace Advent2020
         }
     }
 
-    public class Point2D<T>
+    public class Point2Dold<T>
     {
         private readonly Map2D<T> map;
         public readonly int X, Y;
 
-        public Point2D(Map2D<T> map, int y, int x)
+        public Point2Dold(Map2D<T> map, int y, int x)
         {
             this.map = map;
             Y = y;
@@ -104,7 +104,7 @@ namespace Advent2020
         public T Value => map.Get(Y, X);
         public bool IsInside => map.IsInside(Y, X);
 
-        public Point2D<T> GetInDirection(Direction direction)
+        public Point2Dold<T> GetInDirection(Direction direction)
         {
             int[] vector = direction.Vector();
             return map[Y + vector[0], X + vector[1]];

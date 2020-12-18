@@ -5,53 +5,92 @@ using JetBrains.Annotations;
 
 namespace Advent2020
 {
-    public class Point
+    public class Point<TVal>
     {
-        private readonly int[] coordinates;
+        protected readonly int[] Coordinates;
 
         public Point([NotNull] int[] coordinates)
         {
-            this.coordinates = coordinates;
+            noValue = true;
+            Coordinates = coordinates;
         }
 
-        public Point([NotNull] Point p)
+        public Point([NotNull] Point<TVal> p)
         {
-            this.coordinates = p.coordinates;
+            noValue = true;
+            Coordinates = p.Coordinates;
         }
 
-        public int Dimensions => coordinates.Length;
+        public Point([NotNull] int[] coordinates, DimensionMap<TVal> map)
+        {
+            _map = map;
+            Coordinates = coordinates;
+        }
 
-        public int this[int d] => coordinates[d];
+        public Point([NotNull] Point<TVal> p, DimensionMap<TVal> map)
+        {
+            _map = map;
+            Coordinates = p.Coordinates;
+        }
 
-        public Point Wrap([NotNull] Range[] ranges)
+        public Point([NotNull] int[] coordinates, TVal val)
+        {
+            _value = val;
+            Coordinates = coordinates;
+        }
+
+        public Point([NotNull] Point<TVal> p, TVal val)
+        {
+            _value = val;
+            Coordinates = p.Coordinates;
+        }
+
+        private bool noValue;
+        private readonly TVal _value;
+        private DimensionMap<TVal> _map;
+
+        public TVal Value => noValue ? throw new InvalidOperationException("No Value!") :
+            _map == null ? _value : _map[this];
+
+        public void SetMap(DimensionMap<TVal> map)
+        {
+            _map = map;
+            noValue = false;
+        }
+
+        public int Dimensions => Coordinates.Length;
+
+        public int this[int d] => Coordinates[d];
+
+        public virtual Point<TVal> Wrap([NotNull] Range[] ranges)
         {
             if (ranges.Length != Dimensions)
                 throw new ArgumentException("Cannot wrap different dimension");
             int[] newCoords = new int[Dimensions];
             for (int d = 0; d <= Dimensions; d++)
             {
-                newCoords[d] = coordinates[d] % ranges[d].Max;
+                newCoords[d] = Coordinates[d] % ranges[d].Max;
             }
 
-            return new Point(newCoords);
+            return new Point<TVal>(newCoords);
         }
 
-        protected bool Equals(Point other)
+        protected virtual bool InternalEquals(Point<TVal> other)
         {
-            return coordinates.SequenceEqual(other.coordinates);
+            return Coordinates.SequenceEqual(other.Coordinates);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return Equals((Point)obj);
+            return InternalEquals((Point<TVal>)obj);
         }
 
         public override int GetHashCode()
         {
-            int hc = coordinates.Length;
-            foreach (var t in coordinates)
+            int hc = Coordinates.Length;
+            foreach (var t in Coordinates)
             {
                 hc = unchecked(hc * 314159 + t);
             }
@@ -61,11 +100,13 @@ namespace Advent2020
         private string str;
         public override string ToString()
         {
-            str = str ?? "(" + string.Join(",", coordinates) + ")";
+            str = str ?? BuildToString();
             return str;
         }
 
-        public IEnumerable<Point> GetNeighbors(bool includeDiagonals = true)
+        protected virtual string BuildToString() => "(" + string.Join(",", Coordinates) + ")";
+
+        public IEnumerable<Point<TVal>> GetNeighbors(bool includeDiagonals = true)
         {
             foreach (int[] delta in GetDirectionVectors(includeDiagonals))
             {
@@ -73,11 +114,11 @@ namespace Advent2020
             }
         }
 
-        public Point ApplyVector(int[] vector)
+        public virtual Point<TVal> ApplyVector(int[] vector)
         {
             int[] c = new int[Dimensions];
-            for (int i = 0; i < vector.Length; i++) c[i] = coordinates[i] + vector[i];
-            return new Point(c);
+            for (int i = 0; i < vector.Length; i++) c[i] = Coordinates[i] + vector[i];
+            return new Point<TVal>(c);
         }
 
         private readonly int[][] vectors2DAll = new[]
@@ -124,10 +165,10 @@ namespace Advent2020
             {
                 for (int d = 0; d < Dimensions; d++)
                 {
-                    int[] c = coordinates.ToArray();
+                    int[] c = Coordinates.ToArray();
                     c[d]--;
                     yield return c;
-                    c = coordinates.ToArray();
+                    c = Coordinates.ToArray();
                     c[d]++;
                     yield return c;
                 }
@@ -154,23 +195,50 @@ namespace Advent2020
         }
     }
 
-    public class Point<TVal> : Point
+    public class Point2D<TVal> : Point<TVal>
     {
-        public readonly TVal Value;
-
-        public Point([NotNull] int[] coordinates, TVal value = default) : base(coordinates)
+        public Point2D(int row, int col) : base(new []{row, col})
         {
-            Value = value;
         }
 
-        public Point(Point p, TVal value = default) : base(p)
+        public Point2D(int row, int col, TVal val) : base(new[] { row, col }, val)
         {
-            Value = value;
         }
 
-        public Point(Point<TVal> p) : base(p)
+        public Point2D(int[] coordinates) : base(coordinates)
         {
-            Value = p.Value;
+        }
+
+        public Point2D(int[] coordinates, TVal val) : base(coordinates, val)
+        {
+        }
+
+        public Point2D([NotNull] Point<TVal> p) : base(p)
+        {
+        }
+
+        public Point2D([NotNull] Point<TVal> p, TVal val) : base(p, val)
+        {
+        }
+
+        protected override bool InternalEquals(Point<TVal> other)
+        {
+            return Coordinates[0] == other[0] && Coordinates[1] == other[1];
+        }
+
+        public override int GetHashCode()
+        {
+            int hc = Coordinates.Length;
+            hc = unchecked(hc * 314159 + Coordinates[0]);
+            hc = unchecked(hc * 314159 + Coordinates[1]);
+            return hc;
+        }
+
+        protected override string BuildToString() => $"({Coordinates[0]},{Coordinates[1]})";
+
+        public override Point<TVal> ApplyVector(int[] vector)
+        {
+            return new Point2D<TVal>(Coordinates[0] + vector[0], Coordinates[1] + vector[1]);
         }
     }
 }

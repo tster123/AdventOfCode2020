@@ -8,7 +8,7 @@ namespace Advent2020
 {
     public class DimensionMap<TVal>
     {
-        private readonly Dictionary<Point, TVal> values = new Dictionary<Point, TVal>();
+        private readonly Dictionary<Point<TVal>, TVal> values = new Dictionary<Point<TVal>, TVal>();
         public readonly int Dimensions;
         private readonly Range[] ranges;
         private readonly bool isInfinite;
@@ -45,7 +45,7 @@ namespace Advent2020
 
         public Range GetRange(int dimension) => ranges[dimension];
 
-        public TVal this[[NotNull] Point p]
+        public TVal this[[NotNull] Point<TVal> p]
         {
             get
             {
@@ -76,7 +76,7 @@ namespace Advent2020
             }
         }
 
-        public bool IsInside(Point p)
+        public bool IsInside(Point<TVal> p)
         {
             for (int d = 0; d < Dimensions; d++)
             {
@@ -86,14 +86,9 @@ namespace Advent2020
             return true;
         }
 
-        public IEnumerable<Point<TVal>> GetPointsWithValues()
-        {
-            foreach (var p in values.Keys) yield return new Point<TVal>(p, this[p]);
-        }
+        public IEnumerable<Point<TVal>> Points => values.Keys;
 
-        public IEnumerable<Point> Points => values.Keys;
-
-        public IEnumerable<Point> EnumeratePointsInRange(int expandOutBy = 0)
+        public IEnumerable<Point<TVal>> EnumeratePointsInRange(int expandOutBy = 0)
         {
             int[] deltas = new int[Dimensions];
             Range[] newRanges = ranges;
@@ -108,8 +103,8 @@ namespace Advent2020
             for (int i = 0; i < deltas.Length; i++) deltas[i] = newRanges[i].Min;
             do
             {
-                yield return new Point(deltas.ToArray());
-            } while (Point.BumpDeltas(deltas, newRanges));
+                yield return new Point<TVal>(deltas.ToArray());
+            } while (Point<TVal>.BumpDeltas(deltas, newRanges));
         }
     }
 
@@ -127,7 +122,7 @@ namespace Advent2020
             {
                 for (int col = map.GetRange(1).Min; col <= map.GetRange(1).Max; col++)
                 {
-                    sb.Append(map[new Point(new[]{col, row})]);
+                    sb.Append(map[new Point<TVal>(new[]{col, row})]);
                 }
 
                 sb.AppendLine();
@@ -147,7 +142,7 @@ namespace Advent2020
             {
                 for (int col = 0; col < lines[row].Length; col++)
                 {
-                    points.Add(new Point<char>(new[] {row, col}, lines[row][col]));
+                    points.Add(new Point2D<char>(new[] {row, col}, lines[row][col]));
                 }
             }
 

@@ -70,7 +70,7 @@ namespace Advent2020Tests.Days.D11
             this.map = map;
         }
 
-        public int CountOccupied() => map.GetPointsWithValues().Count(p => p.Value == '#');
+        public int CountOccupied() => map.Points.Count(p => p.Value == '#');
 
         public override string ToString()
         {
@@ -80,11 +80,11 @@ namespace Advent2020Tests.Days.D11
         public void Tick()
         {
             var nextPoints = new List<Point<char>>();
-            foreach (var point in map.GetPointsWithValues())
+            foreach (var point in map.Points)
             {
                 if (point.Value == '.')
                 {
-                    nextPoints.Add(new Point<char>(point, '.'));
+                    nextPoints.Add(new Point2D<char>(point, '.'));
                     continue;
                 }
 
@@ -95,7 +95,7 @@ namespace Advent2020Tests.Days.D11
                 }
 
                 char val = count == 0 ? '#' : count >= 4 ? 'L' : point.Value;
-                nextPoints.Add(new Point<char>(point, val));
+                nextPoints.Add(new Point2D<char>(point, val));
             }
 
             map = map.Next(nextPoints);
@@ -104,18 +104,18 @@ namespace Advent2020Tests.Days.D11
         public void Tick2()
         {
             var nextPoints = new List<Point<char>>();
-            foreach (var point in map.GetPointsWithValues())
+            foreach (var point in map.Points)
             {
                 if (point.Value == '.')
                 {
-                    nextPoints.Add(new Point<char>(point, '.'));
+                    nextPoints.Add(new Point2D<char>(point, '.'));
                     continue;
                 }
 
                 int count = 0;
                 foreach (int[] vector in point.GetDirectionVectors())
                 {
-                    Point p = point;
+                    var p = point;
                     while (true)
                     {
                         p = p.ApplyVector(vector);
@@ -134,7 +134,7 @@ namespace Advent2020Tests.Days.D11
                 }
 
                 char val = count == 0 ? '#' : count >= 5 ? 'L' : point.Value;
-                nextPoints.Add(new Point<char>(new[] { point[0], point[1] }, val));
+                nextPoints.Add(new Point2D<char>(new[] { point[0], point[1] }, val));
             }
 
             map = map.Next(nextPoints);

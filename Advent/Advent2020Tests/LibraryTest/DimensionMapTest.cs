@@ -19,17 +19,17 @@ namespace Advent2020Tests.LibraryTest
                 new Point<char>(new[] {5, 2, 3}, 'b'),
                 new Point<char>(new[] {1, 1, 4}, 'c'),
             }, '.');
-            Assert.AreEqual('a', map[new Point(new []{0, 0, 0})]);
-            Assert.AreEqual('b', map[new Point(new[] { 5, 2, 3 })]);
-            Assert.AreEqual('c', map[new Point(new[] { 1,1,4 })]);
-            Assert.AreEqual('.', map[new Point(new[] { 1, 0, 0 })]);
+            Assert.AreEqual('a', map[new Point<char>(new []{0, 0, 0})]);
+            Assert.AreEqual('b', map[new Point<char>(new[] { 5, 2, 3 })]);
+            Assert.AreEqual('c', map[new Point<char>(new[] { 1,1,4 })]);
+            Assert.AreEqual('.', map[new Point<char>(new[] { 1, 0, 0 })]);
         }
 
         [TestMethod]
         public void TestNeighbors3D()
         {
-            Point p = new Point(new[] {1, 2, 3});
-            Point[] neighbors = p.GetNeighbors().ToArray();
+            var p = new Point<char>(new[] {1, 2, 3});
+            Point<char>[] neighbors = p.GetNeighbors().ToArray();
             Assert.AreEqual(26, neighbors.Length);
             foreach (var n in neighbors)
             {
@@ -40,8 +40,8 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestNeighbors4D()
         {
-            Point p = new Point(new[] { 1, 2, 3, 4 });
-            Point[] neighbors = p.GetNeighbors().ToArray();
+            Point<char> p = new Point<char>(new[] { 1, 2, 3, 4 });
+            Point<char>[] neighbors = p.GetNeighbors().ToArray();
             Assert.AreEqual(80, neighbors.Length);
             foreach (var n in neighbors)
             {
@@ -52,8 +52,8 @@ namespace Advent2020Tests.LibraryTest
         [TestMethod]
         public void TestNeighbors3DCardinal()
         {
-            Point p = new Point(new[] { 1, 2, 3 });
-            Point[] neighbors = p.GetNeighbors(includeDiagonals: false).ToArray();
+            Point<char> p = new Point<char>(new[] { 1, 2, 3 });
+            Point<char>[] neighbors = p.GetNeighbors(includeDiagonals: false).ToArray();
             Assert.AreEqual(6, neighbors.Length);
             foreach (var n in neighbors)
             {

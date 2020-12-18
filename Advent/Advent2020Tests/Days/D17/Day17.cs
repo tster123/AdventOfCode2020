@@ -32,16 +32,16 @@ namespace Advent2020Tests.Days.D17
 
         private object Problem1(DimensionMap<char> start)
         {
-            space = new DimensionMap<char>(3, start.GetPointsWithValues()
+            space = new DimensionMap<char>(3, start.Points
                 .Select(p => new Point<char>(new[] { p[0], p[1], 0 }, p.Value)));
 
 
             for (int i = 0; i < 6; i++)
             {
-                Tick();
+                Tick(3);
             }
 
-            return space.GetPointsWithValues().Count(p => p.Value == '#');
+            return space.Points.Count(p => p.Value == '#');
         }
 
         [TestMethod]
@@ -52,21 +52,20 @@ namespace Advent2020Tests.Days.D17
 
         private object Problem2(DimensionMap<char> start)
         {
-            space = new DimensionMap<char>(4, start.GetPointsWithValues()
-                .Select(p => new Point<char>(new[] {p[0], p[1], 0, 0}, p.Value)));
+            space = new DimensionMap<char>(4, start.Points.Select(p => new Point<char>(new[] {p[0], p[1], 0, 0}, p.Value)));
 
 
             for (int i = 0; i < 6; i++)
             {
-                Tick();
+                Tick(4);
             }
 
-            return space.GetPointsWithValues().Count(p => p.Value == '#');
+            return space.Points.Count(p => p.Value == '#');
         }
 
-        private void Tick()
+        private void Tick(int dimension)
         {
-            space = new DimensionMap<char>(2, NextActive(), '.');
+            space = new DimensionMap<char>(dimension, NextActive(), '.');
         }
 
         private IEnumerable<Point<char>> NextActive()
