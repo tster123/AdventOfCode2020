@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Policy;
 using AdventLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,10 +12,10 @@ namespace Advent2020Tests.Y2020.D19
     {
         public string[] GetLines()
         {
-            return File.ReadAllLines("./Y2020/D19/Data2.txt");
+            return File.ReadAllLines("./Y2020/D19/Data.txt");
         }
 
-        public Data GetData()
+        public Data GetData(bool part2)
         {
             bool onRules = true;
             List<Rule> roughtRules = new List<Rule>();
@@ -30,7 +29,14 @@ namespace Advent2020Tests.Y2020.D19
                 }
                 if (onRules)
                 {
-                    var parts = line.Split(": ");
+                    string modLine = line;
+                    if (part2)
+                    {
+                        if (modLine.StartsWith("8:")) modLine = "8: 42 | 42 8";
+                        if (modLine.StartsWith("11:")) modLine = "11: 42 31 | 42 11 31";
+                    }
+
+                    var parts = modLine.Split(": ");
                     roughtRules.Add(new Rule(int.Parse(parts[0]), parts[1]));
                 }
                 else
@@ -51,24 +57,19 @@ namespace Advent2020Tests.Y2020.D19
         [TestMethod]
         public void Problem1()
         {
-            Console.WriteLine(Problem1(GetData()));
-        }
-
-        private object Problem1(Data data)
-        {
-            HashSet<string> matches = data.Rules[0].GetMatches(data.Rules);
-            int count = 0;
-            foreach (string line in data.Lines)
-            {
-                if (matches.Contains(line)) count++;
-            }
-            return count;
+            object expected = 230;
+            object actual = Problem2(GetData(false));
+            Console.WriteLine(actual);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void Problem2()
         {
-            Console.WriteLine(Problem2(GetData()));
+            object expected = 341;
+            object actual = Problem2(GetData(true));
+            Console.WriteLine(actual);
+            Assert.AreEqual(expected, actual);
         }
 
         private object Problem2(Data data)
@@ -82,12 +83,7 @@ namespace Advent2020Tests.Y2020.D19
                 {
                     count++;
                 }
-                else
-                {
-                    var all = compiled.Matches(line, 0).ToArray();
-                }
             }
-
             return count;
         }
     }

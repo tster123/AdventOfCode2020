@@ -14,7 +14,7 @@ namespace Advent2020Tests.Days.D17
     {
         public string[] GetLines()
         {
-            return File.ReadAllLines("./Days/D17/Data.txt");
+            return File.ReadAllLines("./Y2020/D17/Data.txt");
         }
 
         public DimensionMap<char> GetData()

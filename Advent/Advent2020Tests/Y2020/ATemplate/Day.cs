@@ -11,7 +11,7 @@ namespace Advent2020Tests.Days.ATemplate
     {
         public string[] GetLines()
         {
-            return File.ReadAllLines("./Days/D/Data.txt");
+            return File.ReadAllLines("./Y2020/D/Data.txt");
         }
 
         public object[] GetData()

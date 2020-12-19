@@ -14,7 +14,7 @@ namespace Advent2020Tests.Days.D7
     {
         public string[] GetData()
         {
-            return File.ReadAllLines("./Days/D7/Data.txt");
+            return File.ReadAllLines("./Y2020/D7/Data.txt");
         }
 
         //light gold bags contain 5 plaid turquoise bags, 2 dim indigo bags

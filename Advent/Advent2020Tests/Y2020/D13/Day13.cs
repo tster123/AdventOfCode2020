@@ -14,7 +14,7 @@ namespace Advent2020Tests.Days.D13
         public const int EarliestTime = 1001171;
         public string[] GetLines()
         {
-            return File.ReadAllLines("./Days/D13/Data.txt");
+            return File.ReadAllLines("./Y2020/D13/Data.txt");
         }
 
         public object[] GetData()

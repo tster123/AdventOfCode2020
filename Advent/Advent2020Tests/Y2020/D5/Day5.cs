@@ -18,7 +18,7 @@ namespace Advent2020Tests.Days.D5
         [TestMethod]
         public void Problem2()
         {
-            string[] lines = File.ReadAllLines("./Days/D5/Data.txt");
+            string[] lines = File.ReadAllLines("./Y2020/D5/Data.txt");
             var ints = lines.Select(s => ToId(s)).OrderBy(i => i).ToList();
             for (int i = 1; i < ints.Count - 2; i++)
             {

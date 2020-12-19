@@ -12,7 +12,7 @@ namespace Advent2020Tests.Days.D10
     {
         public string[] GetLines()
         {
-            return File.ReadAllLines("./Days/D10/Data.txt");
+            return File.ReadAllLines("./Y2020/D10/Data.txt");
         }
 
         public int[] GetData()
