@@ -53,22 +53,22 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Days\D18\Day18.cs" />
-    <Compile Include="Days\D17\Day17.cs" />
-    <Compile Include="Days\D15\Day15.cs" />
-    <Compile Include="Days\D16\Day16.cs" />
-    <Compile Include="Days\D14\Day14.cs" />
-    <Compile Include="Days\D13\Day13.cs" />
-    <Compile Include="Days\D12\Day12.cs" />
-    <Compile Include="Days\D10\Day10.cs" />
-    <Compile Include="Days\D11\Day11Refactor.cs" />
-    <Compile Include="Days\D9\Day9.cs" />
-    <Compile Include="Days\D11\Day11.cs" />
-    <Compile Include="Days\D8\Day8.cs" />
-    <Compile Include="Days\D7\Day7.cs" />
-    <Compile Include="Days\D5\Day5.cs" />
-    <Compile Include="Days\ATemplate\Day.cs" />
-    <Compile Include="Days\D6\Day6.cs" />
+    <Compile Include="Y2020\D18\Day18.cs" />
+    <Compile Include="Y2020\D17\Day17.cs" />
+    <Compile Include="Y2020\D15\Day15.cs" />
+    <Compile Include="Y2020\D16\Day16.cs" />
+    <Compile Include="Y2020\D14\Day14.cs" />
+    <Compile Include="Y2020\D13\Day13.cs" />
+    <Compile Include="Y2020\D12\Day12.cs" />
+    <Compile Include="Y2020\D10\Day10.cs" />
+    <Compile Include="Y2020\D11\Day11Refactor.cs" />
+    <Compile Include="Y2020\D9\Day9.cs" />
+    <Compile Include="Y2020\D11\Day11.cs" />
+    <Compile Include="Y2020\D8\Day8.cs" />
+    <Compile Include="Y2020\D7\Day7.cs" />
+    <Compile Include="Y2020\D5\Day5.cs" />
+    <Compile Include="Y2020\ATemplate\Day.cs" />
+    <Compile Include="Y2020\D6\Day6.cs" />
     <Compile Include="LibraryTest\DimensionMapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Y2018\D11\Day11.cs" />
@@ -77,49 +77,49 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Days\D18\Data.txt">
+    <Content Include="Y2020\D18\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D17\Data.txt">
+    <Content Include="Y2020\D17\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D15\Data.txt">
+    <Content Include="Y2020\D15\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D16\Data.txt">
+    <Content Include="Y2020\D16\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D14\Data.txt">
+    <Content Include="Y2020\D14\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D13\Data.txt">
+    <Content Include="Y2020\D13\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D12\Data.txt">
+    <Content Include="Y2020\D12\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D10\Data.txt">
+    <Content Include="Y2020\D10\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D9\Data.txt">
+    <Content Include="Y2020\D9\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D11\Data.txt">
+    <Content Include="Y2020\D11\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D8\Data.txt">
+    <Content Include="Y2020\D8\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D7\Data.txt">
+    <Content Include="Y2020\D7\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D5\Data.txt">
+    <Content Include="Y2020\D5\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\ATemplate\Data.txt">
+    <Content Include="Y2020\ATemplate\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Days\D6\Data.txt">
+    <Content Include="Y2020\D6\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
