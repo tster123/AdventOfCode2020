@@ -2,17 +2,14 @@
 using System;
 using System.IO;
 using System.Linq;
+using Advent2020Tests.Common;
 using AdventLibrary;
 
 namespace Advent2020Tests.Days.ATemplate
 {
     [TestClass]
-    public class Day
+    public class Day : AdventTest
     {
-        public string[] GetLines()
-        {
-            return File.ReadAllLines("./Y2020/D/Data.txt");
-        }
 
         public object[] GetData()
         {
@@ -25,7 +22,7 @@ namespace Advent2020Tests.Days.ATemplate
         [TestMethod]
         public void Problem1()
         {
-            Console.WriteLine(Problem1(GetData()));
+            GiveAnswer(Problem1(GetData()));
         }
 
         private object Problem1(object[] lines)
@@ -36,7 +33,7 @@ namespace Advent2020Tests.Days.ATemplate
         [TestMethod]
         public void Problem2()
         {
-            Console.WriteLine(Problem2(GetData()));
+            GiveAnswer(Problem2(GetData()));
         }
 
         private object Problem2(object[] lines)
