@@ -323,7 +323,6 @@ namespace Advent2020Tests.Y2020.D20
                 if (IsSeaMonster(map, seaMonster, x, y))
                 {
                     list.Add(new Point<char>(new[] {y, x}));
-                    Console.WriteLine($"Found Monster at {x},{y}");
                     numFound++;
                 }
             }
