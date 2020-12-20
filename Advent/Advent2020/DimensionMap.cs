@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -118,9 +119,9 @@ namespace Advent2020
         public string FormatterMap(DimensionMap<TVal> map)
         {
             StringBuilder sb = new StringBuilder();
-            for (int row = map.GetRange(0).Min; row <= map.GetRange(0).Max; row++)
+            for (int row = map.GetRange(1).Min; row <= map.GetRange(1).Max; row++)
             {
-                for (int col = map.GetRange(1).Min; col <= map.GetRange(1).Max; col++)
+                for (int col = map.GetRange(0).Min; col <= map.GetRange(0).Max; col++)
                 {
                     sb.Append(map[new Point<TVal>(new[]{col, row})]);
                 }
@@ -134,16 +135,19 @@ namespace Advent2020
 
     public static class MapFactories
     {
-        public static DimensionMap<char> Character2D(string[] lines, char defaultValue = '~', bool isInfinite = true,
+        public static DimensionMap<char> Character2D(IEnumerable<string> lines, char defaultValue = '~', bool isInfinite = true,
             bool wraps = false)
         {
             List<Point<char>> points = new List<Point<char>>();
-            for (int row = 0; row < lines.Length; row++)
+            int row = 0;
+            foreach (string line in lines)
             {
-                for (int col = 0; col < lines[row].Length; col++)
+                for (int col = 0; col < line.Length; col++)
                 {
-                    points.Add(new Point2D<char>(new[] {row, col}, lines[row][col]));
+                    points.Add(new Point2D<char>(new[] {col, row}, line[col]));
                 }
+
+                row++;
             }
 
             return new DimensionMap<char>(2, points, defaultValue, isInfinite, wraps);

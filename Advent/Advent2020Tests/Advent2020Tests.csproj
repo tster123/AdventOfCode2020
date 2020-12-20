@@ -54,6 +54,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AdventTest.cs" />
+    <Compile Include="LibraryTest\PointTest.cs" />
+    <Compile Include="Y2018\D15\Day15.cs" />
+    <Compile Include="Y2020\D20\Day20.cs" />
     <Compile Include="Y2020\D19\Day19.cs" />
     <Compile Include="Y2020\D18\Day18.cs" />
     <Compile Include="Y2020\D17\Day17.cs" />
@@ -79,6 +82,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Y2018\D15\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Y2020\D20\Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Y2020\D20\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Y2020\D19\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

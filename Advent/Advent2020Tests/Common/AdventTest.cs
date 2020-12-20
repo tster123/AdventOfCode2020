@@ -6,6 +6,8 @@ namespace Advent2020Tests.Common
 {
     public class AdventTest
     {
+        public virtual string DataFile => "Data.txt";
+
         public virtual string[] GetLines()
         {
             // handle template specifically
@@ -19,7 +21,7 @@ namespace Advent2020Tests.Common
 
         protected void GiveAnswer(object expected, object value)
         {
-            if (expected == null || expected == value)
+            if (expected == null || Equals(expected, value))
             {
                 Console.WriteLine(value);
                 return;

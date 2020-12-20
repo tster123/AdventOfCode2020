@@ -87,6 +87,15 @@ namespace Advent2020
             return InternalEquals((Point<TVal>)obj);
         }
 
+        public static bool operator ==(Point<TVal> a, Point<TVal> b)
+        {
+            if (ReferenceEquals(a, b)) return true;
+            return !ReferenceEquals(a, null) && a.Equals(b);
+        }
+            
+
+        public static bool operator !=(Point<TVal> a, Point<TVal> b) => !(a == b);
+
         public override int GetHashCode()
         {
             int hc = Coordinates.Length;
@@ -120,6 +129,8 @@ namespace Advent2020
             for (int i = 0; i < vector.Length; i++) c[i] = Coordinates[i] + vector[i];
             return new Point<TVal>(c);
         }
+
+        public virtual int[] Vector => Coordinates.ToArray();
 
         private readonly int[][] vectors2DAll = new[]
         {
