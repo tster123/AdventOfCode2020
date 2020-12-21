@@ -1,22 +1,16 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using AdventLibrary;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Advent2020Tests.Days.D15
+namespace Advent2020Tests.Y2020.D15
 {
-    /*
     [TestClass]
     public class Day15
     {
-
-
         public int[] GetData()
         {
-            return new[] {13, 16, 0, 12, 15, 1};
+            return new[] { 13, 16, 0, 12, 15, 1 };
             //return new[] { 1,2, 3 };
         }
 
@@ -33,17 +27,18 @@ namespace Advent2020Tests.Days.D15
 
         private static object LastNum(int[] data, int iterations)
         {
-            Dictionary<int, Memory> speaks = new Dictionary<int, Memory>(1000);
+            Dictionary<int, List<int>> speaks = new Dictionary<int, List<int>>();
             int time = 1;
+            int lastAge = 0;
             foreach (int d in data)
             {
-                if (speaks.TryGetValue(d, out var l))
+                if (speaks.ContainsKey(d))
                 {
-                    l.GetToSpeak(time);
+                    speaks[d].Add(time);
                 }
                 else
                 {
-                    speaks[d] = new Memory(time);
+                    speaks[d] = new List<int> { time };
                 }
 
                 time++;
@@ -53,17 +48,23 @@ namespace Advent2020Tests.Days.D15
 
             while (time <= iterations)
             {
-                var mem = speaks[lastNum];
-                lastNum = mem.GetToSpeak(time);
-                
-
-                if (speaks.TryGetValue(lastNum, out var l))
+                int next;
+                if (speaks[lastNum].Count == 1)
                 {
-                    l.Add(time);
+                    next = 0;
                 }
                 else
                 {
-                    speaks[next] = new List<int> {time};
+                    next = speaks[lastNum].Last() - speaks[lastNum][speaks[lastNum].Count - 2];
+                }
+
+                if (speaks.ContainsKey(next))
+                {
+                    speaks[next].Add(time);
+                }
+                else
+                {
+                    speaks[next] = new List<int> { time };
                 }
 
                 lastNum = next;
@@ -76,10 +77,7 @@ namespace Advent2020Tests.Days.D15
         [TestMethod]
         public void Problem2()
         {
-            int expected = 2424;
-            int actual = (int)Problem2(GetData());
-            Assert.AreEqual(expected, actual);
-            Console.WriteLine(actual);
+            Console.WriteLine(Problem2(GetData()));
         }
 
         private object Problem2(int[] data)
@@ -88,31 +86,4 @@ namespace Advent2020Tests.Days.D15
         }
     }
 
-    public class Memory
-    {
-        public int Prev, BeforePrev = -1;
-
-        public Memory(int prev)
-        {
-            Prev = prev;
-        }
-
-        public int GetToSpeak(int currentTime)
-        {
-            if (BeforePrev == -1)
-            {
-                BeforePrev = Prev;
-                Prev = currentTime;
-                return 0;
-            }
-            else
-            {
-                int ret = currentTime - Prev;
-                BeforePrev = Prev;
-                Prev = currentTime;
-                return ret;
-            }
-        }
-    }
-    */
 }
