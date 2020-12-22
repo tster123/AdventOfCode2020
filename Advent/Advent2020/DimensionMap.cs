@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using JetBrains.Annotations;
 
@@ -109,6 +108,41 @@ namespace Advent2020
         }
     }
 
+    public class Transmuter<TVal>
+    {
+        public static DimensionMap<TVal> RotateCounterClockwise(DimensionMap<TVal> map)
+        {
+            return Transform2D(map, p => new[] { p[1], map.GetRange(0).Max - p[0] });
+        }
+
+        public static DimensionMap<TVal> RotateClockwise(DimensionMap<TVal> map)
+        {
+            return Transform2D(map, p => new[] { map.GetRange(1).Max - p[1], p[0] });
+        }
+
+        public static DimensionMap<TVal> FlipAlongVertical(DimensionMap<TVal> map)
+        {
+            return Transform2D(map, p => new[] { map.GetRange(0).Max - p[0], p[1]});
+        }
+
+        public static DimensionMap<TVal> FlipAlongHorizontal(DimensionMap<TVal> map)
+        {
+            return Transform2D(map, p => new[] {p[0], map.GetRange(1).Max - p[1]});
+        }
+
+        private static DimensionMap<TVal> Transform2D(DimensionMap<TVal> map, Func<Point<TVal>, int[]> transformer)
+        {
+            if (map.Dimensions != 2) throw new ArgumentException("only handles 2D maps");
+            var points = new List<Point<TVal>>();
+            foreach (var p in map.Points)
+            {
+                points.Add(new Point<TVal>(transformer(p), p.Value));
+            }
+
+            return new DimensionMap<TVal>(2, points);
+        }
+    }
+
     public interface IMapFormatter<TVal>
     {
         string FormatterMap(DimensionMap<TVal> map);
@@ -126,7 +160,7 @@ namespace Advent2020
                     sb.Append(map[new Point<TVal>(new[]{col, row})]);
                 }
 
-                sb.AppendLine();
+                sb.Append("\n");
             }
 
             return sb.ToString();

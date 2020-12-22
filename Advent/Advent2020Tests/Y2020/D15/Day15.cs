@@ -29,7 +29,6 @@ namespace Advent2020Tests.Y2020.D15
         {
             Dictionary<int, List<int>> speaks = new Dictionary<int, List<int>>();
             int time = 1;
-            int lastAge = 0;
             foreach (int d in data)
             {
                 if (speaks.ContainsKey(d))

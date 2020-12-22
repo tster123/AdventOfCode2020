@@ -113,5 +113,33 @@ namespace Advent2020Tests.LibraryTest
                 Console.WriteLine(p);
             }
         }
+
+        [TestMethod]
+        public void TestTransmutations()
+        {
+            string[] lines =
+            {
+                "0123",
+                "4567",
+                "89ab"
+            };
+            var map = MapFactories.Character2D(lines);
+            Console.WriteLine(map);
+            var rotated = Transmuter<char>.RotateCounterClockwise(map);
+            Console.WriteLine(rotated);
+            Assert.AreEqual("37b\n26a\n159\n048\n", rotated.ToString());
+
+            rotated = Transmuter<char>.RotateClockwise(map);
+            Console.WriteLine(rotated);
+            Assert.AreEqual("840\n951\na62\nb73\n", rotated.ToString());
+
+            var flipped = Transmuter<char>.FlipAlongVertical(map);
+            Console.WriteLine(flipped);
+            Assert.AreEqual("3210\n7654\nba98\n", flipped.ToString());
+
+            flipped = Transmuter<char>.FlipAlongHorizontal(map);
+            Console.WriteLine(flipped);
+            Assert.AreEqual("89ab\n4567\n0123\n", flipped.ToString());
+        }
     }
 }

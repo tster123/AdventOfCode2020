@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using Advent2020Tests.Common;
 using AdventLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,14 +15,14 @@ namespace Advent2020Tests.Y2020.D21
             return GetLines().Select(l =>
             {
                 string[] parts = l.Split(" (");
-                string[] ingr = parts[0].Split(' ').Select(s => s.Trim()).ToArray();
-                string[] alergens = new string[0];
+                string[] ingredients = parts[0].Split(' ').Select(s => s.Trim()).ToArray();
+                string[] allergens = new string[0];
                 if (parts.Length > 1)
                 {
-                    alergens = parts[1].Replace(")", "").Replace("contains ", "").Split(", ");
+                    allergens = parts[1].Replace(")", "").Replace("contains ", "").Split(", ");
                 }
 
-                return new Food(ingr, alergens);
+                return new Food(ingredients, allergens);
             }).ToArray();
         }
 
@@ -36,41 +34,7 @@ namespace Advent2020Tests.Y2020.D21
 
         private object Problem1(Food[] foods)
         {
-            var allI = new HashSet<string>();
-            var atoi = new Dictionary<string, HashSet<string>>();
-            foreach (Food f in foods)
-            {
-                foreach (var a in f.Alergens)
-                {
-                    if (!atoi.ContainsKey(a)) atoi[a] = new HashSet<string>();
-                    foreach (var i in f.Ingredients)
-                    {
-                        allI.Add(i);
-                        atoi[a].Add(i);
-                    }
-                }
-            }
-
-            foreach (Food f in foods)
-            {
-                foreach (var a in atoi.Keys)
-                {
-                    if (!f.Alergens.Contains(a)) continue;
-                    foreach (var i in atoi[a].ToArray())
-                    {
-                        if (!f.Ingredients.Contains(i)) atoi[a].Remove(i);
-                    }
-                }
-            }
-
-            var noAlergens = new List<string>();
-            foreach (string i in allI)
-            {
-                if (!atoi.Values.Any(s => s.Contains(i)))
-                {
-                    noAlergens.Add(i);
-                }
-            }
+            List<string> noAlergens = BuildNoAllergens(foods, out _);
 
             int sum = 0;
             foreach (var i in noAlergens)
@@ -86,46 +50,12 @@ namespace Advent2020Tests.Y2020.D21
         [TestMethod]
         public void Problem2()
         {
-            GiveAnswer(Problem2(GetData()));
+            GiveAnswer("lmxt,rggkbpj,mxf,gpxmf,nmtzlj,dlkxsxg,fvqg,dxzq", Problem2(GetData()));
         }
 
         private object Problem2(Food[] foods)
         {
-            var allI = new HashSet<string>();
-            var atoi = new Dictionary<string, HashSet<string>>();
-            foreach (Food f in foods)
-            {
-                foreach (var a in f.Alergens)
-                {
-                    if (!atoi.ContainsKey(a)) atoi[a] = new HashSet<string>();
-                    foreach (var i in f.Ingredients)
-                    {
-                        allI.Add(i);
-                        atoi[a].Add(i);
-                    }
-                }
-            }
-
-            foreach (Food f in foods)
-            {
-                foreach (var a in atoi.Keys)
-                {
-                    if (!f.Alergens.Contains(a)) continue;
-                    foreach (var i in atoi[a].ToArray())
-                    {
-                        if (!f.Ingredients.Contains(i)) atoi[a].Remove(i);
-                    }
-                }
-            }
-
-            var noAlergens = new List<string>();
-            foreach (string i in allI)
-            {
-                if (!atoi.Values.Any(s => s.Contains(i)))
-                {
-                    noAlergens.Add(i);
-                }
-            }
+            BuildNoAllergens(foods, out var atoi);
 
             bool didSomething = true;
             var itoa = new Dictionary<string, string>();
@@ -151,17 +81,58 @@ namespace Advent2020Tests.Y2020.D21
 
             return string.Join(",", atoi.Values.SelectMany(s => s).OrderBy(i => itoa[i]));
         }
+
+        private static List<string> BuildNoAllergens(Food[] foods, out Dictionary<string, HashSet<string>> atoi)
+        {
+            var allI = new HashSet<string>();
+            atoi = new Dictionary<string, HashSet<string>>();
+            foreach (Food f in foods)
+            {
+                foreach (var a in f.Allergens)
+                {
+                    if (!atoi.ContainsKey(a)) atoi[a] = new HashSet<string>();
+                    foreach (var i in f.Ingredients)
+                    {
+                        allI.Add(i);
+                        atoi[a].Add(i);
+                    }
+                }
+            }
+
+            foreach (Food f in foods)
+            {
+                foreach (var a in atoi.Keys)
+                {
+                    if (!f.Allergens.Contains(a)) continue;
+                    foreach (var i in atoi[a].ToArray())
+                    {
+                        if (!f.Ingredients.Contains(i)) atoi[a].Remove(i);
+                    }
+                }
+            }
+
+            var noAllergens = new List<string>();
+            foreach (string i in allI)
+            {
+                if (!atoi.Values.Any(s => s.Contains(i)))
+                {
+                    noAllergens.Add(i);
+                }
+            }
+
+            return noAllergens;
+        }
     }
 
     public class Food
     {
         public string[] Ingredients;
-        public string[] Alergens;
+        public string[] Allergens;
 
-        public Food(string[] ingredients, string[] alergens)
+        public Food(string[] ingredients, string[] allergens)
         {
             Ingredients = ingredients;
-            Alergens = alergens;
+            Allergens = allergens;
         }
     }
 }

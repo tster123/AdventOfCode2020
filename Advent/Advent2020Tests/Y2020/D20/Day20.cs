@@ -108,7 +108,7 @@ namespace Advent2020Tests.Y2020.D20
             return false;
         }
 
-        public Tile SpinAndFlipToMatchThisWestToLeftsEast(string leftsEast)
+        public Tile SpinAndFlipToMatchThisWestToLeftEast(string leftsEast)
         {
             int save = 0;
             Tile toRet = this;
@@ -127,13 +127,13 @@ namespace Advent2020Tests.Y2020.D20
             return toRet;
         }
 
-        public Tile SpinAndFlipToMatchThisNorthToAbovesSouth(string abovesSouth)
+        public Tile SpinAndFlipToMatchThisNorthToAboveSouth(string aboveSouth)
         {
             int save = 0;
             Tile toRet = this;
             while (true)
             {
-                if (EdgesMatch(toRet.Edges[0], abovesSouth))
+                if (EdgesMatch(toRet.Edges[0], aboveSouth))
                 {
                     break;
                 }
@@ -142,7 +142,7 @@ namespace Advent2020Tests.Y2020.D20
                 if (save++ > 5) throw new Exception("oops");
             }
 
-            if (toRet.Edges[0] == abovesSouth) return toRet.FlipAlongVertical();
+            if (toRet.Edges[0] == aboveSouth) return toRet.FlipAlongVertical();
             return toRet;
         }
     }
@@ -226,7 +226,7 @@ namespace Advent2020Tests.Y2020.D20
             return product;
         }
 
-        private string[] SeaMonster = new[]
+        private readonly string[] _seaMonster = new[]
         {
             "                  # ",
             "#    ##    ##    ###",
@@ -242,7 +242,7 @@ namespace Advent2020Tests.Y2020.D20
         // 144 tiles, it's a 12x12
         private object Problem2(List<Tile> tiles)
         {
-            var (corners, edges, interior) = SeparateEdges(tiles);
+            var (corners, _, _) = SeparateEdges(tiles);
             var placement = DoPlacement(tiles, corners);
 
             List<Point<char>> field = new List<Point<char>>();
@@ -259,7 +259,7 @@ namespace Advent2020Tests.Y2020.D20
 
             var map = new Tile(0, 96, 2, field, defaultValue: '~');
 
-            int numMonsters = 0;
+            int numMonsters;
             int tries = 0;
             while (true)
             {
@@ -285,7 +285,7 @@ namespace Advent2020Tests.Y2020.D20
                 if (tries > 5) throw new Exception(":!");
             }
 
-            var seaMonster = MapFactories.Character2D(SeaMonster);
+            var seaMonster = MapFactories.Character2D(_seaMonster);
             var allPoints = new Dictionary<Point<char>, Point<char>>();
             
             // uncomment this to print out the monsters highlighted.
@@ -295,7 +295,7 @@ namespace Advent2020Tests.Y2020.D20
                 foreach (var mp in seaMonster.Points.Where(m => m.Value == '#'))
                 {
                     var target = monster.ApplyVector(mp.Vector);
-                    if (allPoints[target].Value != '#') throw new Exception("SDOSD");
+                    if (allPoints[target].Value != '#') throw new Exception("expected monster bits");
                     allPoints[target] = new Point<char>(target.Vector, '0');
                 }
             }
@@ -305,8 +305,8 @@ namespace Advent2020Tests.Y2020.D20
             Console.WriteLine(db);
 
             
-            var totalHashes = map.Points.Where(p => p.Value == '#').Count();
-            int seaMonsterSize = seaMonster.Points.Where(p => p.Value == '#').Count();
+            var totalHashes = map.Points.Count(p => p.Value == '#');
+            int seaMonsterSize = seaMonster.Points.Count(p => p.Value == '#');
             return totalHashes - numMonsters * seaMonsterSize;
         }
 
@@ -315,15 +315,13 @@ namespace Advent2020Tests.Y2020.D20
         private List<Point<char>> GetSeaMonsters(Tile map)
         {
             var list = new List<Point<char>>();
-            var seaMonster = MapFactories.Character2D(SeaMonster);
-            int numFound = 0;
+            var seaMonster = MapFactories.Character2D(_seaMonster);
             for (int x = 0; x <= 96; x++)
             for (int y = 0; y <= 96; y++)
             {
                 if (IsSeaMonster(map, seaMonster, x, y))
                 {
                     list.Add(new Point<char>(new[] {y, x}));
-                    numFound++;
                 }
             }
 
@@ -342,8 +340,10 @@ namespace Advent2020Tests.Y2020.D20
 
         private static Dictionary<Point<bool>, Tile> DoPlacement(List<Tile> tiles, List<Tile> corners)
         {
-            Dictionary<Point<bool>, Tile> placement = new Dictionary<Point<bool>, Tile>();
-            placement[new Point2D<bool>(0, 0, true)] = corners[0];
+            var placement = new Dictionary<Point<bool>, Tile>
+            {
+                [new Point2D<bool>(0, 0, true)] = corners[0]
+            };
             tiles.Remove(corners[0]);
             corners.RemoveAt(0);
             // manually debugged and found that 0,10 is a corner, hence it is 11 wide 13 tall.
@@ -356,8 +356,8 @@ namespace Advent2020Tests.Y2020.D20
                 {
                     if (t.Matches(prevLeft.Edges[1]))
                     {
-                        if (!noMatchLeft) throw new Exception("eeek");
-                        Tile rotated = t.SpinAndFlipToMatchThisWestToLeftsEast(prevLeft.Edges[1]);
+                        if (!noMatchLeft) throw new Exception("eek");
+                        Tile rotated = t.SpinAndFlipToMatchThisWestToLeftEast(prevLeft.Edges[1]);
                         if (rotated.Edges[3] != string.Concat(prevLeft.Edges[1].Reverse()))
                             throw new Exception("what?");
                         placement[new Point2D<bool>(0, i, true)] = rotated;
@@ -380,8 +380,8 @@ namespace Advent2020Tests.Y2020.D20
                     {
                         if (t.Matches(prevUp.Edges[2]))
                         {
-                            if (!noMatch) throw new Exception("eeek");
-                            Tile rotated = t.SpinAndFlipToMatchThisNorthToAbovesSouth(prevUp.Edges[2]);
+                            if (!noMatch) throw new Exception("eek");
+                            Tile rotated = t.SpinAndFlipToMatchThisNorthToAboveSouth(prevUp.Edges[2]);
                             if (rotated.Edges[0] != string.Concat(prevUp.Edges[2].Reverse()))
                                 throw new Exception("what?");
                             placement[new Point2D<bool>(y, x, true)] = rotated;
@@ -396,41 +396,6 @@ namespace Advent2020Tests.Y2020.D20
 
             return placement;
         }
-
-        private IEnumerable<Tile> GetCandidatesForSpot(Point<bool> nextPlace, List<Tile> corners, List<Tile> edges, List<Tile> interior)
-        {
-            int x = nextPlace[0];
-            int y = nextPlace[1];
-            if (x == 0 && y == 12)
-            {
-                return corners;
-            }
-            else if (x == 0 && y == 10)
-            {
-                return edges.Concat(corners);
-            }
-            else if (x == 10 && (y == 0 || y == 12))
-            {
-                return corners;
-            }
-            else if (x == 12 && (y == 10 || y == 0))
-            {
-                return corners;
-            }
-            else if (x == 0 || y == 0 || x == 12 || y == 12)
-            {
-                return edges;
-            }
-            else if (x == 10 || y == 10)
-            {
-                return edges.Concat(interior);
-            }
-            else
-            {
-                return interior;
-            }
-        }
-
         private Tuple<List<Tile>, List<Tile>, List<Tile>> SeparateEdges(List<Tile> tiles)
         {
             Dictionary<string, int> numSeen = new Dictionary<string, int>();
