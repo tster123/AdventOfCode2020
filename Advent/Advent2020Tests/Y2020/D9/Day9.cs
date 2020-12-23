@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D9
+namespace Advent2020Tests.Y2020.D9
 {
     [TestClass]
     public class Day9

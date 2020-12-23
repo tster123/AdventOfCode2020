@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Advent2020Tests.Days.D11
+namespace Advent2020Tests.Y2020.D11
 {
     [TestClass]
     public class Day11

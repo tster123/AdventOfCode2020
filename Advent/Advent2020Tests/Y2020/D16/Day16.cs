@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D16
+namespace Advent2020Tests.Y2020.D16
 {
     [TestClass]
     public class Day16

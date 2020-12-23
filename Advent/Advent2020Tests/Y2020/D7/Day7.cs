@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D7
+namespace Advent2020Tests.Y2020.D7
 {
     [TestClass]
     public class Day7

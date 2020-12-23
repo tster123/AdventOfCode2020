@@ -7,7 +7,7 @@ using System.Numerics;
 using Advent2020;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D18
+namespace Advent2020Tests.Y2020.D18
 {
     [TestClass]
     public class Day18

@@ -11,7 +11,7 @@ namespace Advent2020Tests.Common
         public virtual string[] GetLines()
         {
             // handle template specifically
-            if (GetType() == typeof(Days.ATemplate.Day)) return new string[0];
+            if (GetType() == typeof(Template.Day)) return new string[0];
             // ReSharper disable once PossibleNullReferenceException
             string path = GetType().Namespace.Replace("Advent2020Tests.", "").Replace(".", "/");
             return File.ReadAllLines($"./{path}/Data.txt");
@@ -21,6 +21,7 @@ namespace Advent2020Tests.Common
 
         protected void GiveAnswer(object expected, object value)
         {
+            if (value is long && expected is int i) expected = (long) i;
             if (expected == null || Equals(expected, value))
             {
                 Console.WriteLine(value);

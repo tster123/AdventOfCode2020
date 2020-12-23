@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Advent2020Tests.Days.D5
+namespace Advent2020Tests.Y2020.D5
 {
     [TestClass]
     public class Day5

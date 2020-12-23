@@ -5,7 +5,7 @@ using System.Linq;
 using Advent2020Tests.Common;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.ATemplate
+namespace Advent2020Tests.Template
 {
     [TestClass]
     public class Day : AdventTest

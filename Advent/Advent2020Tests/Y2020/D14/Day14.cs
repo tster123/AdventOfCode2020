@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D14
+namespace Advent2020Tests.Y2020.D14
 {
     [TestClass]
     public class Day14

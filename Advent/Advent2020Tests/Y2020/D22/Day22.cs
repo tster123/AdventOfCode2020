@@ -44,7 +44,7 @@ namespace Advent2020Tests.Y2020.D22
         [TestMethod]
         public void Problem1()
         {
-            GiveAnswer(Problem1(GetData()));
+            GiveAnswer(33098, Problem1(GetData()));
         }
 
         private object Problem1(Game game)
@@ -80,7 +80,7 @@ namespace Advent2020Tests.Y2020.D22
         [TestMethod]
         public void Problem2()
         {
-            GiveAnswer(Problem2(GetData()));
+            GiveAnswer(35055, Problem2(GetData()));
         }
 
         private object Problem2(Game game)
@@ -88,7 +88,6 @@ namespace Advent2020Tests.Y2020.D22
             return Score(PlayGame(game).Winner);
         }
 
-        private int hitMemoized = 0;
         private readonly Dictionary<int, Dictionary<string, bool>> memoryGlobal = new Dictionary<int, Dictionary<string, bool>>();
         private GameResult PlayGame(Game game)
         {
@@ -117,7 +116,6 @@ namespace Advent2020Tests.Y2020.D22
                 seen.Add(str);
                 if (memory.TryGetValue(str, out var ret))
                 {
-                    hitMemoized++;
                     return ret;
                 }
                 int p1 = game.Player1[0];
@@ -140,10 +138,6 @@ namespace Advent2020Tests.Y2020.D22
                 give.Add(win);
                 give.Add(loss);
             }
-            /*foreach (string s in seen)
-            {
-                memory[s] = result;
-            }*/
             memory[toMem] = game.Player1.Count > game.Player2.Count;
 
             return game.Player1.Count > game.Player2.Count;

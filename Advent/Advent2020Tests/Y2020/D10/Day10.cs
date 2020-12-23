@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using AdventLibrary;
 
-namespace Advent2020Tests.Days.D10
+namespace Advent2020Tests.Y2020.D10
 {
     [TestClass]
     public class Day10
