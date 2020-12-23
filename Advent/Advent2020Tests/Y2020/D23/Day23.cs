@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Advent2020Tests.Common;
 using AdventLibrary;
 
@@ -36,12 +38,19 @@ namespace Advent2020Tests.Y2020.D23
         [TestMethod]
         public void Problem2()
         {
-            GiveAnswer(Problem2(GetData()));
+            GiveAnswer(12757828710, Problem2(GetData()));
         }
 
         private object Problem2(Game game)
         {
-            return null;
+            game.AddGame2Cups();
+            for (int i = 0; i < 10000000; i++)
+            {
+                game.Tick();
+            }
+
+            Node n = game.GetNode(1);
+            return ((long)n.Next.Value) * n.Next.Next.Value;
         }
     }
 
@@ -49,6 +58,7 @@ namespace Advent2020Tests.Y2020.D23
     {
         public int Value;
         public Node Prev, Next;
+        public bool PickedUp = false;
 
         public Node(int value, Node prev, Node next)
         {
@@ -62,9 +72,9 @@ namespace Advent2020Tests.Y2020.D23
     {
         public int Rounds;
         public Node Current;
-        private bool log = true;
-        public readonly int MaxInput;
-
+        public int MaxInput;
+        public int NodeCount = 0;
+        private readonly Dictionary<int, Node> nodeHash = new Dictionary<int, Node>();
         public Game(int rounds, string start)
         {
             Rounds = rounds;
@@ -84,10 +94,31 @@ namespace Advent2020Tests.Y2020.D23
                     thisNode.Next = next;
                     thisNode = next;
                 }
+
+                nodeHash[i] = thisNode;
+                NodeCount++;
             }
 
             Current.Prev = thisNode;
             thisNode.Next = Current;
+        }
+
+        public void AddGame2Cups()
+        {
+            int next = MaxInput + 1;
+            Node lastNode = Current.Prev;
+            while (NodeCount < 1000000)
+            {
+                Node n = new Node(next, lastNode, Current);
+                Current.Prev = n;
+                lastNode.Next = n;
+                lastNode = n;
+
+                NodeCount++;
+                MaxInput = next;
+                nodeHash[next] = n;
+                next++;
+            }
         }
 
         public void Tick()
@@ -100,33 +131,24 @@ namespace Advent2020Tests.Y2020.D23
 
         private Node GetDestination(Node current)
         {
-            Node closest = current;
-            Node candidate = current;
-            do
+            int tryNum = current.Value;
+            while (true)
             {
-                if (closest.Value >= current.Value && candidate.Value < current.Value)
-                {
-                    // closest is higher, candidate is lower
-                    closest = candidate;
-                }
-                else if (closest.Value < current.Value && candidate.Value < current.Value)
-                {
-                    // both lower
-                    if (candidate.Value > closest.Value) closest = candidate;
-                }
-                else if (closest.Value >= current.Value && candidate.Value >= current.Value)
-                {
-                    // both higher
-                    if (candidate.Value > closest.Value) closest = candidate;
-                }
-                candidate = candidate.Next;
-            } while (candidate != current);
+                tryNum--;
+                if (tryNum < 0) tryNum = MaxInput;
 
-            return closest;
+                if (nodeHash.TryGetValue(tryNum, out var n) && !n.PickedUp) return n;
+            }
         }
 
         private void Place(Node destination, Tuple<Node, Node> pickedUp)
         {
+            Node f = pickedUp.Item1;
+            while (f != null)
+            {
+                f.PickedUp = false;
+                f = f.Next;
+            }
             Node afterDest = destination.Next;
             destination.Next = pickedUp.Item1;
             pickedUp.Item1.Prev = destination;
@@ -137,10 +159,12 @@ namespace Advent2020Tests.Y2020.D23
         private Tuple<Node, Node> PickUp(Node current, int num)
         {
             Node f = current.Next;
+            f.PickedUp = true;
             Node l = f;
             for (int i = 1; i < num; i++)
             {
                 l = l.Next;
+                l.PickedUp = true;
             }
 
             current.Next = l.Next;
@@ -165,5 +189,7 @@ namespace Advent2020Tests.Y2020.D23
 
             return r;
         }
+
+        public Node GetNode(int value) => nodeHash[value];
     }
 }
