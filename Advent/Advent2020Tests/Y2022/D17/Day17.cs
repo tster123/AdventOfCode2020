@@ -24,7 +24,7 @@ namespace Advent2020Tests.Y2022.D17
         private object Problem1(string input)
         {
             var map = Sim(input, 2022);
-            return map.Count - 1;
+            return map.Count;
         }
 
         private List<char[]> Sim(string input, long numRocks, int rockTypeOffset = 0, int jetIndex = 0, List<char[]> map = null)
@@ -303,7 +303,7 @@ namespace Advent2020Tests.Y2022.D17
                 if (topToInfo.ContainsKey(top))
                 {
                     var ti = topToInfo[top];
-                    Console.WriteLine($"FOUND REPEAT: at i={i}, oldI={ti.BlockCount}, height={map.Count}, oldHeight={ti.Height} on top\n{top}");
+                    //Console.WriteLine($"FOUND REPEAT: at i={i}, oldI={ti.BlockCount}, height={map.Count}, oldHeight={ti.Height} on top\n{top}");
                     long numDropsDistance = (i + 1) - topToInfo[top].BlockCount;
                     long remaining = 1000000000000 - (i + 1);
                     long numRepeat = remaining / numDropsDistance;
@@ -312,7 +312,7 @@ namespace Advent2020Tests.Y2022.D17
                     
                     var topAsMap = top.Split("\n").Skip(2).Select(s => s.Trim()).Where(s => s.Length > 0).Select(s => s.ToCharArray()).ToList();
                     topAsMap.Reverse();
-                    Print(topAsMap);
+                    //Print(topAsMap);
                     long topHeight = topAsMap.Count;
                     //debug = true;
                     var finalMap = Sim(input, remaining, 1 + (i % 5), jetIndex, topAsMap);
