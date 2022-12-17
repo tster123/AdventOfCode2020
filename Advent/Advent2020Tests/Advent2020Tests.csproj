@@ -86,6 +86,8 @@
     <Compile Include="Y2021\D01\Day01.cs" />
     <Compile Include="Y2021\D02\Day02.cs" />
     <Compile Include="Y2021\D03\Day03.cs" />
+    <Compile Include="Y2021\D04\Day04.cs" />
+    <Compile Include="Y2022\D17\Day17.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -170,6 +172,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Y2021\D03\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Y2021\D04\Data.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Y2022\D17\Data.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

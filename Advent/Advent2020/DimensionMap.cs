@@ -186,5 +186,31 @@ namespace Advent2020
 
             return new DimensionMap<char>(2, points, defaultValue, isInfinite, wraps);
         }
+
+        public static DimensionMap<TFinal> Flexible2D<TFinal>(
+            IEnumerable<string> lines, 
+            Func<string, IEnumerable<string>> lineSplitter,
+            Func<string, TFinal> parser,
+            TFinal defaultValue,
+            bool isInfinite = true,
+            bool wraps = false)
+        {
+            List<Point<TFinal>> points = new List<Point<TFinal>>();
+            int row = 0;
+            foreach (string line in lines)
+            {
+                var parts = lineSplitter(line);
+                int col = 0;
+                foreach (string part in parts)
+                {
+                    points.Add(new Point2D<TFinal>(new[] {col, row}, parser(part)));
+                    col++;
+                }
+
+                row++;
+            }
+
+            return new DimensionMap<TFinal>(2, points, defaultValue, isInfinite, wraps);
+        }
     }
 }

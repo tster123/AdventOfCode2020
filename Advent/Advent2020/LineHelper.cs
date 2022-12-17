@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Advent2020
 {
-    public class LineHelper
+    public static class LineHelper
     {
-        public static List<List<string>> Groupify(IEnumerable<string> lines)
+        /// <summary>
+        /// Creates groups from lines where the groups are separated by empty lines.
+        /// </summary>
+        public static List<List<string>> Groupify(this IEnumerable<string> lines)
         {
             var ret = new List<List<string>>();
             var currentGroup = new List<string>();
