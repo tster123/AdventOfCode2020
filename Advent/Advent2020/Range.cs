@@ -28,5 +28,15 @@ namespace Advent2020
             if (value > Max) return new Range(Min, value);
             throw new InvalidOperationException("wat?");
         }
+
+        public bool FullyContains(Range r)
+        {
+            return Contains(r.Min) && Contains(r.Max);
+        }
+
+        public bool Overlaps(Range r)
+        {
+            return Contains(r.Max) || Contains(r.Min) || r.Contains(Min) || r.Contains(Max);
+        }
     }
 }
