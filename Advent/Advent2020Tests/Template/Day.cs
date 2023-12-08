@@ -8,7 +8,7 @@ using AdventLibrary;
 namespace Advent2020Tests.Template
 {
     [TestClass]
-    public class Day : AdventTest
+    public class Day1 : AdventTest
     {
 
         public object[] GetData()

@@ -11,10 +11,10 @@ namespace Advent2020Tests.Common
         public virtual string[] GetLines()
         {
             // handle template specifically
-            if (GetType() == typeof(Template.Day)) return new string[0];
+            if (GetType() == typeof(Template.Day1)) return new string[0];
             // ReSharper disable once PossibleNullReferenceException
             string path = GetType().Namespace.Replace("Advent2020Tests.", "").Replace(".", "/");
-            return File.ReadAllLines($"./{path}/Data.txt");
+            return File.ReadAllLines($"./{path}/{DataFile}");
         }
 
         protected void GiveAnswer(object value) => GiveAnswer(null, value);

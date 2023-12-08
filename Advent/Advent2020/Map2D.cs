@@ -21,6 +21,11 @@ namespace Advent2020
             return matrix[y][x];
         }
 
+        public T Get<TP>(Point<TP> p)
+        {
+            return Get(p[0], p[1]);
+        }
+
         public bool IsInside(int y, int x) => x >= 0 && y >= 0 && y < matrix.Length && x < matrix[y].Length;
 
         public Point2Dold<T> this[int y, int x] => new Point2Dold<T>(this, y, x);
